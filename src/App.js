@@ -16,20 +16,30 @@ function AppInner() {
   const [showModal, setShowModal] = useState(false);
 
   const filteredTasks = tasks
+    .filter((task) => (filters.unfinishedOnly ? !ETAT_TERMINE.includes(task.status) : true))
+    .filter((task) => (filters.status.length ? filters.status.includes(task.status) : true))
     .filter((task) =>
-      task.title.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .filter((task) =>
-      selectedFolderId ? task.folderIds?.includes(selectedFolderId) : true
-    )
-    .filter((task) =>
-      selectedStatus === "ALL" ? true : task.status === selectedStatus
+      filters.folderIds.length
+        ? task.folderIds?.some((folderId) => filters.folderIds.includes(folderId))
+        : true
     );
 
+  const sortedTasks = [...filteredTasks].sort((taskA, taskB) => {
+    if (sort === "dueDesc") return (taskB.dueDate || "").localeCompare(taskA.dueDate || "");
+    if (sort === "createdDesc") return (taskB.createdAt || "").localeCompare(taskA.createdAt || "");
+    if (sort === "nameAsc") return taskA.title.localeCompare(taskB.title);
+    return 0;
+  });
+
   const toggleFilterValue = (key, value) => {
-    setFilters((prev) => {
-      const exists = prev[key].includes(value);
-      return { ...prev, [key]: exists ? prev[key].filter((v) => v !== value) : [...prev[key], value] };
+    setFilters((previousFilters) => {
+      const exists = previousFilters[key].includes(value);
+      return {
+        ...previousFilters,
+        [key]: exists
+          ? previousFilters[key].filter((item) => item !== value)
+          : [...previousFilters[key], value],
+      };
     });
   };
 
@@ -41,13 +51,15 @@ function AppInner() {
           filters={filters}
           folders={folders}
           statuses={Object.values(ETATS)}
-          onToggleStatus={(s) => toggleFilterValue("status", s)}
-          onToggleFolder={(id) => toggleFilterValue("folderIds", id)}
-          onToggleDefault={() => setFilters((f) => ({ ...f, unfinishedOnly: !f.unfinishedOnly }))}
+          onToggleStatus={(status) => toggleFilterValue("status", status)}
+          onToggleFolder={(folderId) => toggleFilterValue("folderIds", folderId)}
+          onToggleDefault={() =>
+            setFilters((current) => ({ ...current, unfinishedOnly: !current.unfinishedOnly }))
+          }
         />
         <SortControls sort={sort} onChange={setSort} />
       </div>
-      <TaskList tasks={filteredTasks} folders={folders} />
+      <TaskList tasks={sortedTasks} folders={folders} />
       <Footer onAdd={() => setShowModal(true)} />
       {showModal && <TaskModal folders={folders} onClose={() => setShowModal(false)} />}
     </div>
