@@ -1,0 +1,139 @@
+/* This is a mess, I hate CSS :pray: */
+body {
+  margin: 0; 
+  font-family: Arial, sans-serif; 
+}
+
+.app { 
+  max-width: 900px; 
+  margin: 0 auto; 
+  padding: 8px; 
+}
+
+.header, .footer { 
+  display: flex; 
+
+  justify-content: space-between; 
+  align-items: center; 
+  background: #f0f0f0; 
+  padding: 8px; 
+  border: 1px solid #ccc; 
+}
+
+.header-stats { 
+  display: flex; 
+  gap: 8px; 
+}
+
+.controls { 
+  display: flex; 
+  gap: 8px; 
+  margin: 8px 0; 
+  flex-wrap: wrap; 
+}
+
+button { 
+  cursor: pointer; 
+
+}
+
+.task-list { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 6px; 
+}
+
+.task { 
+  background: #fff; 
+  border: 1px solid #ccc; 
+  padding: 6px; 
+}
+
+.task-main { 
+  display: grid; 
+  grid-template-columns: auto 1fr 1fr auto; 
+  
+  gap: 6px; 
+  align-items: center; 
+}
+
+.meta { 
+  color: #555; 
+  font-size: 12px; 
+}
+
+.triangle { 
+  background: none; 
+  border: 1px solid #ccc; 
+  padding: 2px 6px; 
+}
+
+.folders, .chip-row { 
+  display: flex; 
+  gap: 4px; 
+  flex-wrap: wrap; 
+}
+
+.tag { 
+  padding: 2px 4px; 
+  border: 1px solid #999; 
+  background: #eee; 
+  font-size: 12px; 
+}
+
+.chip { 
+  border: 1px solid #555; 
+  background: #fafafa; 
+  padding: 4px 6px; 
+}
+
+.chip.active { 
+  background: #ddd; 
+}
+
+.sort select, input, textarea, select { 
+  padding: 4px; 
+  border: 1px solid #ccc; 
+}
+
+.footer { 
+  justify-content: center; 
+
+  margin-top: 10px; 
+}
+
+.add-btn { 
+  font-size: 20px; 
+  width: 40px; 
+  height: 40px; 
+  border: 1px solid #555; 
+  background: #e6e6e6; 
+
+}
+
+.modal-backdrop { 
+  position: fixed; 
+  inset: 0; 
+  background: rgba(0,0,0,0.2); 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+
+
+}
+
+.modal { 
+
+  background: white; 
+  padding: 12px; 
+  border: 1px solid #ccc; 
+  width: 320px; 
+  max-width: 90vw; 
+}
+
+.modal-actions { 
+  display: flex; 
+  gap: 6px; 
+  justify-content: flex-end; 
+  margin-top: 8px; 
+}
